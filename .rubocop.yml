@@ -1,0 +1,42 @@
+plugins:
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  # Exclude replaces RuboCop's defaults instead of adding to them, so the four
+  # defaults are repeated here; without them a bundle installed in vendor/ is linted.
+  Exclude:
+    - node_modules/**/*
+    - tmp/**/*
+    - vendor/**/*
+    - .git/**/*
+    - gemfiles/**/*
+    # A migration's column list comes from the schema, so the metrics cops do not apply.
+    - '**/db/migrate/**/*'
+  TargetRubyVersion: 3.3
+  NewCops: enable
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/NumericLiterals:
+  # Rails writes the schema version as 2026_01_01_000000, which is not the
+  # groups-of-three shape this cop asks for.
+  AllowedPatterns:
+    - '\A\d{4}_\d{2}_\d{2}_\d{6}\z'
+
+Rails/RakeEnvironment:
+  # This is a gem, not a Rails app: its Rakefile has no :environment task to depend on.
+  Exclude:
+    - Rakefile
+
+Metrics/BlockLength:
+  # rubocop-rspec excludes spec files from this cop by default; this gem holds
+  # spec blocks to the same limit as the rest of the code.
+  inherit_mode:
+    override:
+      - Exclude
+  Exclude: []
