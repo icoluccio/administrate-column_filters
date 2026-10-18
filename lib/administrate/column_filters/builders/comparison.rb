@@ -5,6 +5,8 @@ module Administrate
     module Builders
       class Comparison < Ranged
         MAX_LENGTH = 40
+        # A short input like 1e999999 becomes a literal too large for the database to accept.
+        MAGNITUDE = (BigDecimal(10)**-MAX_LENGTH)..(BigDecimal(10)**MAX_LENGTH)
 
         private
 
@@ -26,7 +28,7 @@ module Administrate
 
         def parse(raw)
           number = BigDecimal(raw, exception: false) if raw.length <= MAX_LENGTH
-          number if number&.finite?
+          number if number&.finite? && MAGNITUDE.cover?(number)
         end
 
         def literal(number)

@@ -33,6 +33,51 @@ jobs:
           BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails }}.gemfile
         run: bundle exec rspec
 
+  postgres:
+    name: Postgres
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_ADAPTER: postgresql
+      RAILS_ENV: test
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '4.0'
+          bundler-cache: false
+      - name: Install libpq
+        run: sudo apt-get update && sudo apt-get install -y libpq-dev
+      - name: Generate appraisal gemfiles
+        run: |
+          bundle install
+          bundle exec appraisal generate
+      - name: Install dependencies for Postgres
+        env:
+          BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_8.1_postgres.gemfile
+        run: bundle install
+      - name: Create the test database
+        env:
+          BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_8.1_postgres.gemfile
+        working-directory: spec/dummy
+        run: bundle exec rails db:create
+      - name: Run tests
+        env:
+          BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_8.1_postgres.gemfile
+        run: bundle exec rspec
+
   lint:
     name: RuboCop
     runs-on: ubuntu-latest

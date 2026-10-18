@@ -15,6 +15,7 @@ Administrate::ColumnFilters
     - [Overriding a filter](#overriding-a-filter)
     - [Custom field types](#custom-field-types)
     - [Limits](#limits)
+  - [Testing](#testing)
   - [Contributing](#contributing)
   - [Releases](#releases)
   - [About](#about)
@@ -176,6 +177,18 @@ These field types get no filter: `Time`, `Password`, `RichText` and `Polymorphic
 
 Administrate splits the search term on spaces and colons, so a value cannot contain either. Times of day contain a colon, so `Time` has no filter and `DateTime` matches whole days. Values with spaces do not work.
 
+## Testing
+
+Administrate's own search object is the shortest way to assert on a dashboard's filters:
+
+```ruby
+Administrate::Search.new(Article.all, ArticleDashboard.new, 'title:tech').run
+```
+
+Asserting on the rows that come back exercises the dashboard's `ATTRIBUTE_TYPES` and the filter the gem builds from them. For a request-level check, hit the admin index with a search term and assert on the body, the way this gem's own request spec does.
+
+The gem ships no RSpec shared examples on purpose. Covering arbitrary models and factories needs a configuration DSL, and consumers would write more test code than production code.
+
 ## Contributing
 
 1. Fork it
@@ -187,6 +200,14 @@ Administrate splits the search term on spaces and colons, so a value cannot cont
 7. Run the specs against one Rails version (`BUNDLE_GEMFILE=gemfiles/rails_7.1.gemfile bundle exec rspec`)
 8. Push your branch (`git push origin my-new-feature`)
 9. Create a new Pull Request to `main` branch
+
+The specs run on SQLite by default. CI also runs them against a `postgres` service, which is where adapter-specific behaviour gets caught.
+
+```bash
+DATABASE_ADAPTER=postgresql bundle exec rspec
+```
+
+It defaults to `localhost:5432` with `postgres`/`postgres` and the database `column_filters_test`; `DATABASE_HOST`, `DATABASE_PORT`, `DATABASE_USER`, `DATABASE_PASSWORD` and `DATABASE_NAME` override those. Only the database has to exist: the suite loads `spec/dummy/db/schema.rb` itself.
 
 ## Releases
 [See what's changed in a recent version](https://github.com/icoluccio/administrate-column_filters/releases)
