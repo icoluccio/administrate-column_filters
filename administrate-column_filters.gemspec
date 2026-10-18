@@ -5,7 +5,7 @@ require 'administrate/column_filters/version'
 Gem::Specification.new do |s|
   s.name        = 'administrate-column_filters'
   s.version     = Administrate::ColumnFilters::VERSION
-  s.authors     = ['icoluccio']
+  s.authors     = ['Ignacio Coluccio']
   s.email       = ['ignacio.coluccio@gmail.com']
   s.homepage    = 'https://github.com/icoluccio/administrate-column_filters'
   s.summary     = 'Typed column:value filters for the Administrate search bar'
@@ -14,7 +14,10 @@ Gem::Specification.new do |s|
                   'ids, instead of one hand-written lambda per column.'
   s.license     = 'MIT'
   s.required_ruby_version = '>= 3.3'
-  s.metadata['allowed_push_host'] = 'https://rubygems.invalid'
+  s.metadata['homepage_uri'] = s.homepage
+  s.metadata['source_code_uri'] = s.homepage
+  s.metadata['changelog_uri'] = "#{s.homepage}/blob/main/CHANGELOG.md"
+  s.metadata['bug_tracker_uri'] = "#{s.homepage}/issues"
   s.metadata['rubygems_mfa_required'] = 'true'
 
   s.files = Dir['lib/**/*.rb'] + %w[README.md LICENSE.md CHANGELOG.md]
