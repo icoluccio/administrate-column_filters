@@ -18,3 +18,9 @@ end
 appraise 'rails-8.1' do
   gem 'rails', '~> 8.1.0'
 end
+
+# Only the Postgres CI job installs this appraisal, so no other bundle needs pg.
+appraise 'rails-8.1-postgres' do
+  gem 'rails', '~> 8.1.0'
+  gem 'pg', '>= 1.6'
+end

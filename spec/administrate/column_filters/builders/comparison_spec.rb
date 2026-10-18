@@ -9,7 +9,7 @@ RSpec.describe Administrate::ColumnFilters::Builders::Comparison do
     '<5.7' => %i[five], '>5.7' => %i[ten fifteen], '5.7' => [], '>=5.0' => %i[five ten fifteen],
     '4.5..5.5' => %i[five],
     'abc' => [], '>abc' => [], '5..' => [], '..5' => [], '>' => [], '0x1A' => [], 'NaN' => [], 'Infinity' => [],
-    '1e999999' => [], "1#{'0' * 40}" => []
+    '1e999999' => [], '1e-999999' => [], "1#{'0' * 40}" => [], '1e3' => []
   }.each do |typed, names|
     it "answers #{typed.inspect} with #{names.inspect}" do
       rows = view_counts
