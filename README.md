@@ -59,13 +59,15 @@ Skip the gem when:
 - You need times of day, or association matching by name. See [Limits](#limits).
 
 ## Installation
-The gem is private. Add the following line to your application's Gemfile, pinned to a tag:
+
+Add the gem to your application's Gemfile:
 
 ```ruby
-gem 'administrate-column_filters', git: 'https://github.com/icoluccio/administrate-column_filters', tag: 'v0.1.0'
+gem 'administrate-column_filters'
 ```
 
 And then execute:
+
 ```bash
 $ bundle
 ```
@@ -210,7 +212,8 @@ DATABASE_ADAPTER=postgresql bundle exec rspec
 It defaults to `localhost:5432` with `postgres`/`postgres` and the database `column_filters_test`; `DATABASE_HOST`, `DATABASE_PORT`, `DATABASE_USER`, `DATABASE_PASSWORD` and `DATABASE_NAME` override those. Only the database has to exist: the suite loads `spec/dummy/db/schema.rb` itself.
 
 ## Releases
-[See what's changed in a recent version](https://github.com/icoluccio/administrate-column_filters/releases)
+
+The gem is on [RubyGems](https://rubygems.org/gems/administrate-column_filters), and each version has a [GitHub release](https://github.com/icoluccio/administrate-column_filters/releases).
 
 ## About
 
