@@ -1,0 +1,17 @@
+CommitMsg:
+  CapitalizedSubject:
+    enabled: false
+
+  TextWidth:
+    enabled: true
+    max_subject_width: 72
+
+PrePush:
+  ALL:
+    requires_files: false
+    quiet: false
+
+  RakeTarget:
+    enabled: true
+    description: 'Run the gate: RuboCop, bundler-audit, flay and RSpec with 100% coverage'
+    targets: ['ci']
